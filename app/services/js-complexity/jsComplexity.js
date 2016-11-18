@@ -28,11 +28,22 @@ angular.module('myApp')
     return 0;
   }
 
+  function countLoops(jsCode) {
+    var matches = jsCode.match(/(while(?!'|"))|(for(?!'|"))/gi);
+
+    if (matches) {
+      return matches.length;
+    }
+
+    return 0;
+  }
+
   this.evaluate = function(jsCode) {
     var ifCount = countIfs(jsCode),
-        caseCount = countCases(jsCode);
+        caseCount = countCases(jsCode),
+        loopCount = countLoops(jsCode);
 
-    return ifCount + caseCount + 1;
+    return ifCount + caseCount + loopCount + 1;
     // complexity equals 1 if source code has no control flow statements
   };
 });

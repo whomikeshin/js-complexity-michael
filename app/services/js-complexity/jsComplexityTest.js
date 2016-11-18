@@ -11,6 +11,7 @@ describe('myApp.jsComplexity Service', function() {
       expect(jsComplexity.evaluate).toBeDefined();
     }));
 
+    // If statements
     it('should evaluate function without control flow statements correctly', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){return a;}')).toEqual(1);
     }));
@@ -35,22 +36,36 @@ describe('myApp.jsComplexity Service', function() {
       expect(jsComplexity.evaluate('function check(a){ if(a===1){return "if";}else{return "else";}}')).toEqual(2);
     }));
 
-    /// Switch
+    // Case statements
 
-    it('should evaluate a switch statement with a single case correctly', inject(function(jsComplexity) {
+    it('should evaluate a single case correctly', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){ switch(a){case 0:return a;}}')).toEqual(2);
     }));
 
-    it('should evaluate a switch statement with cases and default correctly', inject(function(jsComplexity) {
+    it('should evaluate cases and a default correctly', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){ switch(a){case 0:return a;case 1:return a;default:return -1;}}')).toEqual(3);
     }));
 
-    it('should ignore switch conditions in strings', inject(function(jsComplexity) {
-      expect(jsComplexity.evaluate('switch(a){ case 1:return "case";default:return "default";}')).toEqual(2);
+    it('should ignore case conditions in strings', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ switch(a){ case 1:return "case";}}')).toEqual(2);
     }));
 
-    // it('should evaluate a nested if and switch, correctly', inject(function(jsComplexity) {
-    //   expect(jsComplexity.evaluate('check(a){ if(a%2===0){switch(a){case 0:return a;break;default:return "even";}}else{return "odd"}}')).toEqual(3);
-    // }));
+    it('should evaluate an if with nested case correctly', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ if(a%2===0){switch(a){case 0:return a;default:return "even";}}else{return "odd";}}')).toEqual(3);
+    }));
+
+    // Loop statements
+
+    it('should evaluate a while loop correctly', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ while(a>0){console.log(a);a--;}}')).toEqual(2);
+    }));
+
+    it('should evaluate a for loop correctly', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ for(vari=0;i<a;i++){console.log(a);}}')).toEqual(2);
+    }));
+
+    it('should evaluate a while loop with nested if, else if, else correctly', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ while(a>0){if(a<2){a-=1;}else if(a<10){a/=2;}else{a/=5;}}}')).toEqual(4);
+    }));
   });
 });
