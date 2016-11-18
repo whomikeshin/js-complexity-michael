@@ -2,7 +2,7 @@
 
 angular.module('myApp')
 .controller('mainViewCtrl', ['$scope', 'jsComplexity',
- function($scope, jsComplexity) {
+ function mainViewCtrlController($scope, jsComplexity) {
 
   $scope.reset = function() {
     $scope.jsCode = [ "// Expected Complexity: 3\n",
