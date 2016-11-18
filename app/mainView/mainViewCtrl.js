@@ -48,7 +48,7 @@ angular.module('myApp')
         value: hash[key]
       });
     });
-    arr.push({name: "plus 1", value:1})
+    arr.push({name: "base", value:1})
     return arr;
   }
 

@@ -9,6 +9,7 @@ describe('myApp.jsComplexity Service', function() {
     it('should exist', inject(function(jsComplexity) {
       expect(jsComplexity).toBeDefined();
       expect(jsComplexity.evaluate).toBeDefined();
+      expect(jsComplexity.list).toBeDefined();
     }));
 
     // If statements
@@ -80,6 +81,10 @@ describe('myApp.jsComplexity Service', function() {
     // OR Operator
     it('should evaluate an OR operator correctly', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){ return a || "empty";}')).toEqual(2);
+    }));
+
+    it('should evaluate an single | correctly', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ return a || |;}')).toEqual(2);
     }));
 
     it('should ignore an OR operator in strings', inject(function(jsComplexity) {
