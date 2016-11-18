@@ -5,6 +5,11 @@ body {
 }
 
 textarea {
-  width: 100%;
+  width: 75%;
   height: 20em;
+  display: block;
+}
+
+input {
+  margin-top: 1em;
 }
