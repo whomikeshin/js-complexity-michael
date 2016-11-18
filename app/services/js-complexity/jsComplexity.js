@@ -11,7 +11,7 @@ angular.module('myApp')
     // match only if not followed by ' or "
     // delete else regex
     // case where "do this or else "
-    var matches = jsCode.match(/(if(?!'|"))|(else if(?!'|"))/gi);
+    var matches = jsCode.match(/(if(?!'|"))|(else if(?!'|"))/g);
 
     if (matches) {
       return matches.length;
@@ -21,7 +21,7 @@ angular.module('myApp')
 
   function countCases(jsCode) {
     // delete default regex
-    var matches = jsCode.match(/(case(?!'|"))/gi);
+    var matches = jsCode.match(/(case(?!'|"))/g);
 
     if (matches) {
       return matches.length;
@@ -41,7 +41,7 @@ angular.module('myApp')
 
   function countTernary(jsCode) {
     // how to match ?
-    var matches = jsCode.match(/([?](?=(.*[:])))/gi);
+    var matches = jsCode.match(/([?](?=(.*[:])))/g);
 
     if (matches) {
       return matches.length;
@@ -50,24 +50,24 @@ angular.module('myApp')
     return 0;
   }
 
-  // function countOrs(jsCode) {
-  //   var matches = jsCode.match(/([||](?!'|"))/gi);
-  //
-  //   if (matches) {
-  //     return matches.length;
-  //   }
-  //
-  //   return 0;
-  // }
+  function countOrs(jsCode) {
+    var matches = jsCode.match(/([|](?!'|"))/g);
+
+    if (matches) {
+      return Math.floor(matches.length / 2);
+    }
+
+    return 0;
+  }
 
   this.evaluate = function(jsCode) {
     var ifCount = countIfs(jsCode),
         caseCount = countCases(jsCode),
         loopCount = countLoops(jsCode),
-        ternaryCount = countTernary(jsCode);
-        // orCount = countOrs(jsCode);
+        ternaryCount = countTernary(jsCode),
+        orCount = countOrs(jsCode);
 
-    return ifCount + caseCount + loopCount + ternaryCount + 1;
+    return ifCount + caseCount + loopCount + ternaryCount + orCount + 1;
     // complexity equals 1 if source code has no control flow statements
   };
 });

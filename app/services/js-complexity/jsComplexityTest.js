@@ -68,13 +68,22 @@ describe('myApp.jsComplexity Service', function() {
       expect(jsComplexity.evaluate('function check(a){ while(a>0){if(a<2){a-=1;}else if(a<10){a/=2;}else{a/=5;}}}')).toEqual(4);
     }));
 
-    // Tenary
+    // Tenary Operator
     it('should evaluate a ternary operator correctly', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){ return a%2===0?"even":"odd";}')).toEqual(2);
     }));
 
     it('should ignore ternary operator in strings', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){ return a%2===0?"even":"?";}')).toEqual(2);
+    }));
+
+    // OR Operator
+    it('should ignore ternary operator in strings', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ return a || "empty";}')).toEqual(2);
+    }));
+
+    it('should ignore ternary operator in strings', inject(function(jsComplexity) {
+      expect(jsComplexity.evaluate('function check(a){ return a || "||";}')).toEqual(2);
     }));
 
   });
