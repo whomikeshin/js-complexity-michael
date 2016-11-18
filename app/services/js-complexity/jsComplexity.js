@@ -8,8 +8,9 @@ angular.module('myApp')
   // custom parser
 
   function countIfs(jsCode) {
-    var matches = jsCode.match(/(if(?!'|"))|(else if(?!'|"))|(else(?!'|"))/gi);
     // match only if not followed by ' or "
+    // delete else regex
+    var matches = jsCode.match(/(if(?!'|"))|(else if(?!'|"))/gi);
 
     if (matches) {
       return matches.length;
@@ -18,7 +19,8 @@ angular.module('myApp')
   }
 
   function countCases(jsCode) {
-    var matches = jsCode.match(/(case(?!'|"))|(default(?!'|"))/gi);
+    // delete default regex
+    var matches = jsCode.match(/(case(?!'|"))/gi);
 
     if (matches) {
       return matches.length;
@@ -30,6 +32,7 @@ angular.module('myApp')
     var ifCount = countIfs(jsCode),
         caseCount = countCases(jsCode);
 
-    return ifCount + caseCount;
+    return ifCount + caseCount + 1;
+    // complexity equals 1 if source code has no control flow statements
   };
 });
