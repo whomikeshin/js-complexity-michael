@@ -18,9 +18,37 @@ angular.module('myApp')
     $scope.checkJSCode($scope.jsCode);
   };
 
-  $scope.checkJSCode = function (code)
-  {
+  $scope.checkJSCode = function (code) {
     $scope.checkResult = jsComplexity.evaluate(code);
+  };
+
+  $scope.checkCalc = function (code) {
+    var hash = $scope.countMatches(jsComplexity.list(code));
+    var results = $scope.hashToArray(hash);
+    $scope.calcResults = results;
+  };
+
+  $scope.countMatches = function (matches) {
+    var seen = {};
+    matches.forEach(function(el) {
+      if (seen[el]) {
+        seen[el] += 1;
+      } else {
+        seen[el] = 1;
+      }
+    });
+    return seen;
+  };
+
+  $scope.hashToArray = function (hash) {
+    var arr = [];
+    Object.keys(hash).forEach(function(key) {
+      arr.push({
+        name: key,
+        value: hash[key]
+      });
+    });
+    return arr;
   };
 
   $scope.reset();

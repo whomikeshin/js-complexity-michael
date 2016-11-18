@@ -2,55 +2,46 @@
 
 angular.module('myApp')
 .service('jsComplexity', function() {
-  var matchList = [];
 
-  function countIfs(jsCode) {
-    var matches = jsCode.match(/(if(?!'|"))|(else if(?!'|"))/gi);
-    matchList.concat(matches);
-
-    return matches ? matches.length : 0;
+  function matchIfs(jsCode) {
+    return jsCode.match(/(if(?!'|"))|(else if(?!'|"))/gi);
   }
 
-  function countCases(jsCode) {
-    var matches = jsCode.match(/(case(?!'|"))/gi);
-    matchList.concat(matches);
-
-    return matches ? matches.length : 0;
+  function matchCases(jsCode) {
+    return jsCode.match(/(case(?!'|"))/gi);
   }
 
-  function countLoops(jsCode) {
-    var matches = jsCode.match(/(while(?!'|"))|(for(?!'|"))/gi);
-    matchList.concat(matches);
-
-    return matches ? matches.length : 0;
+  function matchLoops(jsCode) {
+    return jsCode.match(/(while(?!'|"))|(for(?!'|"))/gi);
   }
 
-  function countTernary(jsCode) {
-    var matches = jsCode.match(/([?](?=(.*[:])))/g);
-    matchList.concat(matches);
-
-    return matches ? matches.length : 0;
+  function matchTernaries(jsCode) {
+    return jsCode.match(/([?](?=(.*[:])))/g);
   }
 
-  function countOrs(jsCode) {
-    var matches = jsCode.match(/([|](?!'|"))/g);
-    matchList.concat(matches);
-
-    return matches ? Math.floor(matches.length / 2) : 0;
+  function matchOrs(jsCode) {
+    return jsCode.match(/([|](?!'|"))/g);
   }
 
   this.evaluate = function(jsCode) {
-    var ifCount = countIfs(jsCode),
-        caseCount = countCases(jsCode),
-        loopCount = countLoops(jsCode),
-        ternaryCount = countTernary(jsCode),
-        orCount = countOrs(jsCode);
+    var ifCount = matchIfs(jsCode) ? matchIfs(jsCode).length : 0,
+        caseCount = matchCases(jsCode) ? matchCases(jsCode).length : 0,
+        loopCount = matchLoops(jsCode) ? matchLoops(jsCode).length : 0,
+        ternaryCount = matchTernaries(jsCode) ? matchTernaries(jsCode).length : 0,
+        orCount = matchOrs(jsCode) ? Math.floor(matchOrs(jsCode).length / 2) : 0;
 
     // complexity equals 1 if source code has no control flow statements
     return 1 + ifCount + caseCount + loopCount + ternaryCount + orCount;
   };
 
-  this.list = function() {
-    return matchList;
+  this.list = function(jsCode) {
+    var matchList = [],
+        ifs = matchIfs(jsCode) ? matchIfs(jsCode) : [],
+        cases = matchCases(jsCode) ? matchCases(jsCode) : [],
+        loops = matchLoops(jsCode) ? matchLoops(jsCode) : [],
+        ternaries = matchTernaries(jsCode) ? matchTernaries(jsCode) : [],
+        // watch out here
+        ors = matchOrs(jsCode) ? matchOrs(jsCode) : [];
+    return matchList.concat(ifs, cases, loops, ternaries, ors);
   };
 });
