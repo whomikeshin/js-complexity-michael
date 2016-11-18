@@ -25,6 +25,8 @@ angular.module('myApp')
   $scope.checkCalc = function (code) {
     var hash = countMatches(jsComplexity.list(code));
     var results = hashToArray(hash);
+    results.push({name: "plus 1", value:1});
+
     $scope.calcResults = results;
   };
 
@@ -48,7 +50,6 @@ angular.module('myApp')
         value: hash[key]
       });
     });
-    arr.push({name: "base", value:1})
     return arr;
   }
 
