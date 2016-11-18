@@ -23,14 +23,28 @@ angular.module('myApp')
     return jsCode.match(/([|](?!'|"))/g);
   }
 
-  function convertTernary(matches) {
+  function convertOr(matches) {
     var count = Math.floor(matches.length / 2),
         result = [],
         i = 0;
 
     while (i < count) {
-      result.push("||");
+      result.push("or");
+      i += 1;
     }
+    return result;
+  }
+
+  function convertTernary(matches) {
+    var i = 0,
+        result = [];
+
+    while (i < matches.length) {
+      result.push("ternary");
+      i += 1;
+    }
+
+    return result;
   }
 
   this.evaluate = function(jsCode) {
@@ -49,10 +63,9 @@ angular.module('myApp')
         ifs = matchIfs(jsCode) ? matchIfs(jsCode) : [],
         cases = matchCases(jsCode) ? matchCases(jsCode) : [],
         loops = matchLoops(jsCode) ? matchLoops(jsCode) : [],
-        ternaries = matchTernaries(jsCode) ?
-          convertTernary(matchTernaries(jsCode)) : [],
-        // watch out here
-        ors = matchOrs(jsCode) ? matchOrs(jsCode) : [];
+        ternaries = matchTernaries(jsCode) ? convertTernary(matchTernaries(jsCode)) : [],
+        ors = matchOrs(jsCode) ? convertOr(matchOrs(jsCode)) : [];
+
     return matchList.concat(ifs, cases, loops, ternaries, ors);
   };
 });
