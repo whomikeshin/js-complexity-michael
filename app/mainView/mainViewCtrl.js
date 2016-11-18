@@ -23,14 +23,14 @@ angular.module('myApp')
   };
 
   $scope.checkCalc = function (code) {
-    var hash = $scope.countMatches(jsComplexity.list(code));
-    var results = $scope.hashToArray(hash);
+    var hash = countMatches(jsComplexity.list(code));
+    var results = hashToArray(hash);
     $scope.calcResults = results;
   };
 
-  $scope.countMatches = function (matches) {
+  function countMatches(list) {
     var seen = {};
-    matches.forEach(function(el) {
+    list.forEach(function(el) {
       if (seen[el]) {
         seen[el] += 1;
       } else {
@@ -38,9 +38,9 @@ angular.module('myApp')
       }
     });
     return seen;
-  };
+  }
 
-  $scope.hashToArray = function (hash) {
+  function hashToArray(hash) {
     var arr = [];
     Object.keys(hash).forEach(function(key) {
       arr.push({
@@ -48,8 +48,9 @@ angular.module('myApp')
         value: hash[key]
       });
     });
+    arr.push({name: "plus 1", value:1})
     return arr;
-  };
+  }
 
   $scope.reset();
 }]);

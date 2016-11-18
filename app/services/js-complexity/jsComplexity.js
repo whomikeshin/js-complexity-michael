@@ -23,6 +23,16 @@ angular.module('myApp')
     return jsCode.match(/([|](?!'|"))/g);
   }
 
+  function convertTernary(matches) {
+    var count = Math.floor(matches.length / 2),
+        result = [],
+        i = 0;
+
+    while (i < count) {
+      result.push("||");
+    }
+  }
+
   this.evaluate = function(jsCode) {
     var ifCount = matchIfs(jsCode) ? matchIfs(jsCode).length : 0,
         caseCount = matchCases(jsCode) ? matchCases(jsCode).length : 0,
@@ -39,7 +49,8 @@ angular.module('myApp')
         ifs = matchIfs(jsCode) ? matchIfs(jsCode) : [],
         cases = matchCases(jsCode) ? matchCases(jsCode) : [],
         loops = matchLoops(jsCode) ? matchLoops(jsCode) : [],
-        ternaries = matchTernaries(jsCode) ? matchTernaries(jsCode) : [],
+        ternaries = matchTernaries(jsCode) ?
+          convertTernary(matchTernaries(jsCode)) : [],
         // watch out here
         ors = matchOrs(jsCode) ? matchOrs(jsCode) : [];
     return matchList.concat(ifs, cases, loops, ternaries, ors);

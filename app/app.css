@@ -5,11 +5,20 @@ body {
 }
 
 textarea {
-  width: 75%;
+  width: 60%;
   height: 20em;
   display: block;
 }
 
 input {
   margin-top: 1em;
+}
+
+.calc {
+  width: 20%;
+  float: right;
+}
+
+.name {
+  color: green;
 }

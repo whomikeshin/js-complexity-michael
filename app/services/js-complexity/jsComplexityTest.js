@@ -78,11 +78,11 @@ describe('myApp.jsComplexity Service', function() {
     }));
 
     // OR Operator
-    it('should ignore ternary operator in strings', inject(function(jsComplexity) {
+    it('should evaluate an OR operator correctly', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){ return a || "empty";}')).toEqual(2);
     }));
 
-    it('should ignore ternary operator in strings', inject(function(jsComplexity) {
+    it('should ignore an OR operator in strings', inject(function(jsComplexity) {
       expect(jsComplexity.evaluate('function check(a){ return a || "||";}')).toEqual(2);
     }));
 
